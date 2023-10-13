@@ -1,0 +1,130 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+<!--
+<p>
+Welcome to the HWDT Dashboard! </p>
+<p>
+Here you can:
+<ul>
+<li>View key statistics from Whale Track and Silurian. </li>
+<li>Stay up to date with HWDT’s latest conservation responses, data sharing activities and research outputs. </li>
+<li> Keep track of the equipment in your team and monitor its condition over time.  </li>
+</ul>
+If you encounter any issues or have suggestions for features you’d like to see on the Dashboard in future, please email science@hwdt.org.
+
+</p>
+
+-->
+
+  <h2> Player stats </h2>
+  <table id="data" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Player</th>
+        <th>Games played</th>
+        <th> Games won </th>
+        <th>% of wins</th>
+
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for i, row in df_top_players.iterrows() %}
+        <tr>
+          <td> <br>{{ df_top_players.Player[i]}}  </br></td>
+          <td>{{ df_top_players.games_played[i]}}</td>
+          <td> {{df_top_players.games_won[i]}}</td>
+          <td>{{ df_top_players.win_ratio[i]}} </td>
+       
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+<hr/>
+
+      <div class='row'>
+      <h2> Monthly stats </h2>
+    </div>
+
+    <div class='row'>
+      <div id='games_month_chart' class='chart col-md-12 '></div>
+
+</div>
+
+      <div class='row'>
+      <div id='morale_chart' class='chart col-md-12 '></div>
+
+    </div>
+
+      <div class='row'>
+      <h2> Some other variables </h2>
+    </div>
+
+    <div class='row'>
+
+      <div id='pie_chart1' class='chart col-md-6 '></div>
+      <div id='pie_chart4' class='chart col-md-6 '></div>
+    </div>
+    <div class='row'>
+      <div id='pie_chart2' class='chart col-md-6 '></div>
+      <div id='pie_chart3' class='chart col-md-6 '></div>
+
+    </div>
+
+
+
+
+
+
+ 
+
+
+{% endblock content %}
+
+ {% block optional_static %}
+  <script>
+
+
+    $(document).ready( function () {
+      $('#data').DataTable({paging: false, info: false});
+    } );
+
+  </script>
+
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>-->
+    <script type='text/javascript'>
+      var graphs1 = {{pie_chart1 | safe}};
+      Plotly.plot('pie_chart1',graphs1,{});
+    </script>
+    <script type='text/javascript'>
+      var graphs2 = {{pie_chart2 | safe}};
+      Plotly.plot('pie_chart2',graphs2,{});
+    </script>
+
+
+  <script type='text/javascript'>
+      var graphs3 = {{pie_chart3 | safe}};
+      Plotly.plot('pie_chart3',graphs3,{});
+    </script>
+
+  <script type='text/javascript'>
+      var graphs4 = {{pie_chart4 | safe}};
+      Plotly.plot('pie_chart4',graphs4,{});
+    </script>
+
+  <script type='text/javascript'>
+      var graphs4 = {{games_month_chart | safe}};
+      Plotly.plot('games_month_chart',graphs4,{});
+    </script>
+
+  <script type='text/javascript'>
+      var graphs5 = {{morale_chart | safe}};
+      Plotly.plot('morale_chart',graphs5,{});
+    </script>
+
+
+{% endblock optional_static %}
